@@ -5,7 +5,23 @@
     <title>Bookshelf App</title>
 </head>
 <body>
-    <h1>Welcome to your Bookshelf App!</h1>
-    <p>This is your first Flask-rendered HTML page.</p>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Read</th>
+            <th>Liked</th>
+        </tr>
+        {% for book in books %}
+        <tr>
+            <td>{{ book[0] }}</td>
+            <td>{{ book[1] }}</td>
+            <td>{{ book[2] }}</td>
+            <td>{{ "Yes" if book[3] else "No" }}</td>
+            <td>{{ "Yes" if book[4] else "No" }}</td>
+        </tr>
+        {% endfor %}
+    </table>
 </body>
 </html>

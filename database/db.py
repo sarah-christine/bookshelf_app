@@ -3,7 +3,7 @@ import sqlite3
 DB_PATH = 'database/bookshelf.db'
 
 def get_connection():
-    return sqlite3.connect(DB_PATH)
+    return sqlite3.connect(DB_PATH, timeout=10)
 
 # Create the books table if it doesn't exist
 def create_books_table():
@@ -29,11 +29,13 @@ def add_book(title, author):
         cursor = conn.cursor()
         cursor.execute('INSERT INTO books (title, author) VALUES (?, ?)', (title, author))
         conn.commit()
-        conn.close()
         return True
     except sqlite3.IntegrityError:
         # Handles duplicate titles
         return False
+    finally:
+        # Always close the connection
+        conn.close()
     
 # Retrieve all books from the books table
 def get_all_books():
