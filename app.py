@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for
 from database.db import create_books_table, get_connection, add_book, get_all_books
 
 app = Flask(__name__)
@@ -13,6 +13,15 @@ add_book("To Kill a Mockingbird", "Harper Lee")
 def home():
     books = get_all_books()
     return render_template('index.html', books=books)
+
+@app.route('/add', methods=['POST'])
+def add():
+    title = request.form['title']
+    author = request.form['author']
+
+    add_book(title, author)
+
+    return redirect(url_for('home'))
 
 if __name__ == "__main__":
     app.run(debug=True)
