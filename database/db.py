@@ -45,3 +45,16 @@ def get_all_books():
     books = cursor.fetchall()
     conn.close()
     return books
+
+def delete_book(book_id):
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute('DELETE FROM books WHERE id = ?', (book_id,))
+        conn.commit()
+        return cursor.rowcount > 0 # Returns True if a row was deleted
+    except sqlite3.Error:
+        # Database error
+        return False
+    finally:
+        conn.close()
